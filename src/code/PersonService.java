@@ -29,6 +29,7 @@ public class PersonService {
         System.out.print("Podaj swoj wiek: ");
         int wiek = sc.nextInt();
         personLinkedList.add(new Person(imie,wiek));
+        savePersonData();
     }
     public void readPersons(){
         try {
@@ -74,6 +75,8 @@ public class PersonService {
         Person p = new Person(info[0].toString(),Integer.parseInt(info[1]),new Account(info[2],Double.parseDouble(info[3]),info[4]));
         return p;
     }
+
+
 
 
 }

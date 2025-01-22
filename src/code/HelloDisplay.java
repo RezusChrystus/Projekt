@@ -14,7 +14,8 @@ public class HelloDisplay {
         if(choice == 1){
             login();
         }else{
-
+            service.addPerson();
+            login();
         }
     }
     private void displayHelloWindow() {
@@ -37,23 +38,26 @@ public class HelloDisplay {
         System.out.println(p.getName()+" Logged on");
         System.out.print("*********************************************+\n" +
                 "*                                           *\n" +
+                "*========================================== *\n" +
                 "*  1) display money amount                  *\n" +
                 "*  2) withdraw                              *\n" +
                 "*  3) deposit                               *\n" +
+                "*========================================== *\n" +
                 "*                                           *\n" +
-                "*========================================== *\n"
+                "*********************************************\n"
 
         );
+        handleOperation(p);
     }
     private void unsuccesfullLoginWindowDisplay(){
         printTenLines();
         System.out.print("*********************************************+\n" +
                 "*                                           *\n" +
                 "*                                           *\n" +
-                "*       Unsuccesfully logged :C             *\n" +
+                "*         Unsuccesfully logged :C           *\n" +
                 "*                                           *\n" +
                 "*                                           *\n" +
-                "*========================================== *\n"
+                "*********************************************\n"
 
         );
     }
@@ -67,7 +71,7 @@ public class HelloDisplay {
                 "*                                           *\n" +
                 "*             Enter Pincode below           *\n" +
                 "*========================================== *\n" +
-                "*                  "
+                "                   "
         );
         Scanner sc = new Scanner(System.in);
         int pin = sc.nextInt();
@@ -92,8 +96,32 @@ public class HelloDisplay {
         }
         return null;
     }
+    public void handleOperation(Person p){
+        Scanner sc = new Scanner(System.in);
+        int choice ;
+        double ammount;
+        do{
+            choice=sc.nextInt();
+        }while(choice>3 || choice<1);
+        if(choice ==1){
+            System.out.println(p.getAccount().getCashAmount());
+        } else if (choice == 2) {
+            System.out.print("Select amount: ");
+            ammount=sc.nextDouble();
+            if(ammount<p.getAccount().getCashAmount()){
+                System.out.println("not enough money");
+            }else{
+                p.getAccount().setCashAmount(p.getAccount().getCashAmount()-ammount);
+            }
+        } else {
+            ammount=sc.nextDouble();
+            p.getAccount().setCashAmount(p.getAccount().getCashAmount()+ammount);
 
-
+        }
+        if(choice==2 || choice ==3){
+            service.savePersonData();
+        }
+    }
 
 
 }
