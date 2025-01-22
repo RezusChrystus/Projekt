@@ -18,6 +18,10 @@ public class PersonService {
         readPersons();
     }
 
+    public LinkedList<Person> getPersonLinkedList() {
+        return personLinkedList;
+    }
+
     public void addPerson(){
         Scanner sc = new Scanner(System.in);
         System.out.print("Wprowadz imie uzytkownika: ");
@@ -68,7 +72,6 @@ public class PersonService {
     public Person personParser(String line){
         String []info = line.split(";");
         Person p = new Person(info[0].toString(),Integer.parseInt(info[1]),new Account(info[2],Double.parseDouble(info[3]),info[4]));
-//        p.setAccount(new Account(info[2],Integer.parseInt(info[3]),info[4]));
         return p;
     }
 

@@ -36,6 +36,18 @@ public class Account {
     public void setCashAmount(double cashAmount) {
         this.cashAmount = cashAmount;
     }
+    public void withdraw(double amount){
+        if(amount>=cashAmount) {
+            this.cashAmount -= amount;
+            System.out.println("withrow coplete");
+        }else{
+            System.out.println("not enough money");
+        }
+    }
+    public void deposit(double deposit){
+        this.cashAmount+=deposit;
+        System.out.println("Deposit complete");
+    }
 
     public String getFourDigitPin() {
         return fourDigitPin;
@@ -72,5 +84,6 @@ public class Account {
         }
         return pin.length()==4;
     }
+
 
 }
