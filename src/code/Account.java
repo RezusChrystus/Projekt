@@ -9,6 +9,12 @@ public class Account {
     private double cashAmount;
     private String fourDigitPin;
 
+    public Account(String accountNumber, double cashAmount, String fourDigitPin) {
+        this.accountNumber = accountNumber;
+        this.cashAmount = cashAmount;
+        this.fourDigitPin = fourDigitPin;
+    }
+
     public Account() {
         this.accountNumber = generateAccountNumber();
         this.cashAmount = 0;

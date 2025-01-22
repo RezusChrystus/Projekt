@@ -7,6 +7,12 @@ public class Person {
     private int age;
     private Account account;
 
+    public Person(String name, int age, Account account) {
+        this.name = name;
+        this.age = age;
+        this.account = account;
+    }
+
     public Person(String name, int age) {
         this.name = name;
         this.age = age;
@@ -19,7 +25,27 @@ public class Person {
                 account.toString();
     }
 
+    public String getName() {
+        return name;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
+    public int getAge() {
+        return age;
+    }
 
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 }
