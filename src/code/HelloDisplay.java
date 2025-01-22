@@ -10,117 +10,130 @@ public class HelloDisplay {
     public void display() {
         displayHelloWindow();
         Scanner sc = new Scanner(System.in);
-        int choice = sc.nextInt();
-        if(choice == 1){
+        int choice=-1;
+        do {
+            choice = sc.nextInt();
+        } while (choice<1 ||choice>3);
+        if (choice == 1) {
             login();
-        }else{
+        } else if (choice == 2) {
             service.addPerson();
             login();
+        } else {
+            printFrameWithMessage("*========================================== *\n" +
+                    "*             Thank You!                    *\n" +
+                    "*========================================== *\n");
+            return;
         }
     }
+
     private void displayHelloWindow() {
-        System.out.print("*********************************************+\n" +
-                "*                                           *\n" +
-                "*               Hello there                 *\n" +
+        printFrameWithMessage("*               Hello there                 *\n" +
                 "*                                           *\n" +
                 "*             Enter Pincode below           *\n" +
                 "*========================================== *\n" +
                 "*   1) login                                *\n" +
                 "*   2) Create account                       *\n" +
-                "*========================================== *\n" +
-                "*                                           *\n" +
-                "*********************************************+"
-        );
+                "*   3) Exit                                 *\n" +
+                "*========================================== *\n");
+
     }
 
-    private void succesfullLoginWindowDisplay(Person p){
-        printTenLines();
-        System.out.println(p.getName()+" Logged on");
-        System.out.print("*********************************************+\n" +
-                "*                                           *\n" +
-                "*========================================== *\n" +
-                "*  1) display money amount                  *\n" +
-                "*  2) withdraw                              *\n" +
-                "*  3) deposit                               *\n" +
-                "*========================================== *\n" +
-                "*                                           *\n" +
-                "*********************************************\n"
-
-        );
-        handleOperation(p);
-    }
-    private void unsuccesfullLoginWindowDisplay(){
+    private void printFrameWithMessage(String message) {
         printTenLines();
         System.out.print("*********************************************+\n" +
-                "*                                           *\n" +
-                "*                                           *\n" +
-                "*         Unsuccesfully logged :C           *\n" +
-                "*                                           *\n" +
-                "*                                           *\n" +
-                "*********************************************\n"
-
-        );
+                "*                                           *\n");
+        System.out.print(message);
+        System.out.print("*                                           *\n" +
+                "*********************************************+\n");
     }
 
+    private boolean handleOperation(Person p) {
+        Scanner sc = new Scanner(System.in);
+        int choice;
+        double ammount;
+        do {
+            choice = sc.nextInt();
+        } while (choice > 4 || choice < 1);
+        if (choice == 1) {
+            System.out.println(p.getAccount().getCashAmount());
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        } else if (choice == 2) {
+            System.out.print("Select amount: ");
+            ammount = sc.nextDouble();
+            if (ammount > p.getAccount().getCashAmount()) {
+                System.out.println("not enough money");
+            } else {
+                p.getAccount().setCashAmount(p.getAccount().getCashAmount() - ammount);
+            }
+        } else if (choice == 4) {
+            return false;
 
-    private void login(){
-        printTenLines();
-        System.out.print("*********************************************+\n" +
+        } else {
+            ammount = sc.nextDouble();
+            p.getAccount().setCashAmount(p.getAccount().getCashAmount() + ammount);
+
+        }
+        if (choice == 2 || choice == 3) {
+            service.savePersonData();
+        }
+        return true;
+    }
+
+    private void succesfullLoginWindowDisplay(Person p) {
+        boolean cont = true;
+        while (cont) {
+            printFrameWithMessage(p.getName() + " Logged on\n" +
+                    "*========================================== *\n" +
+                    "*  1) display money amount                  *\n" +
+                    "*  2) withdraw                              *\n" +
+                    "*  3) deposit                               *\n" +
+                    "*  4) Logout                                *\n" +
+                    "*========================================== *\n");
+            cont = handleOperation(p);
+        }
+        display();
+    }
+
+    private void unsuccesfullLoginWindowDisplay() {
+        printFrameWithMessage("*         Unsuccesfully logged :C           *\n");
+
+    }
+
+    private void login() {
+        printFrameWithMessage("*               Hello there                 *\n" +
                 "*                                           *\n" +
-                "*               Hello there                 *\n" +
-                "*                                           *\n" +
-                "*             Enter Pincode below           *\n" +
-                "*========================================== *\n" +
-                "                   "
-        );
+                "*             Enter Pincode below           *\n");
+
         Scanner sc = new Scanner(System.in);
         int pin = sc.nextInt();
         Person p = findPerson(pin);
-        if( p== null){
+        if (p == null) {
             unsuccesfullLoginWindowDisplay();
-        }else {
+        } else {
             succesfullLoginWindowDisplay(p);
+
         }
     }
-    private void printTenLines(){
-        for (int i =0;i<10;i++){
+
+    private void printTenLines() {
+        for (int i = 0; i < 10; i++) {
             System.out.println();
         }
     }
-    private Person findPerson(int pincode){
-        List<Person> l =  service.getPersonLinkedList();
-        for (Person p : l){
-            if(Objects.equals(p.getAccount().getFourDigitPin(), String.valueOf(pincode))){
+
+    private Person findPerson(int pincode) {
+        List<Person> l = service.getPersonLinkedList();
+        for (Person p : l) {
+            if (Objects.equals(p.getAccount().getFourDigitPin(), String.valueOf(pincode))) {
                 return p;
             }
         }
         return null;
-    }
-    public void handleOperation(Person p){
-        Scanner sc = new Scanner(System.in);
-        int choice ;
-        double ammount;
-        do{
-            choice=sc.nextInt();
-        }while(choice>3 || choice<1);
-        if(choice ==1){
-            System.out.println(p.getAccount().getCashAmount());
-        } else if (choice == 2) {
-            System.out.print("Select amount: ");
-            ammount=sc.nextDouble();
-            if(ammount<p.getAccount().getCashAmount()){
-                System.out.println("not enough money");
-            }else{
-                p.getAccount().setCashAmount(p.getAccount().getCashAmount()-ammount);
-            }
-        } else {
-            ammount=sc.nextDouble();
-            p.getAccount().setCashAmount(p.getAccount().getCashAmount()+ammount);
-
-        }
-        if(choice==2 || choice ==3){
-            service.savePersonData();
-        }
     }
 
 
