@@ -7,45 +7,14 @@ import java.util.Scanner;
 public class HelloDisplay {
     PersonService service = new PersonService();
 
-    public void display() {
-        displayHelloWindow();
-        Scanner sc = new Scanner(System.in);
-        int choice=-1;
-        do {
-            choice = sc.nextInt();
-        } while (choice<1 ||choice>3);
-        if (choice == 1) {
-            login();
-        } else if (choice == 2) {
-            service.addPerson();
-            login();
-        } else {
-            printFrameWithMessage("*========================================== *\n" +
-                    "*             Thank You!                    *\n" +
-                    "*========================================== *\n");
-            return;
+    private Person findPerson(int pincode) {
+        List<Person> l = service.getPersonLinkedList();
+        for (Person p : l) {
+            if (Objects.equals(p.getAccount().getFourDigitPin(), String.valueOf(pincode))) {
+                return p;
+            }
         }
-    }
-
-    private void displayHelloWindow() {
-        printFrameWithMessage("*               Hello there                 *\n" +
-                "*                                           *\n" +
-                "*             Enter Pincode below           *\n" +
-                "*========================================== *\n" +
-                "*   1) login                                *\n" +
-                "*   2) Create account                       *\n" +
-                "*   3) Exit                                 *\n" +
-                "*========================================== *\n");
-
-    }
-
-    private void printFrameWithMessage(String message) {
-        printTenLines();
-        System.out.print("*********************************************+\n" +
-                "*                                           *\n");
-        System.out.print(message);
-        System.out.print("*                                           *\n" +
-                "*********************************************+\n");
+        return null;
     }
 
     private boolean handleOperation(Person p) {
@@ -126,15 +95,45 @@ public class HelloDisplay {
         }
     }
 
-    private Person findPerson(int pincode) {
-        List<Person> l = service.getPersonLinkedList();
-        for (Person p : l) {
-            if (Objects.equals(p.getAccount().getFourDigitPin(), String.valueOf(pincode))) {
-                return p;
-            }
+    public void display() {
+        displayHelloWindow();
+        Scanner sc = new Scanner(System.in);
+        int choice=-1;
+        do {
+            choice = sc.nextInt();
+        } while (choice<1 ||choice>3);
+        if (choice == 1) {
+            login();
+        } else if (choice == 2) {
+            service.addPerson();
+            login();
+        } else {
+            printFrameWithMessage("*========================================== *\n" +
+                    "*             Thank You!                    *\n" +
+                    "*========================================== *\n");
+            return;
         }
-        return null;
     }
 
+    private void displayHelloWindow() {
+        printFrameWithMessage("*               Hello there                 *\n" +
+                "*                                           *\n" +
+                "*             Enter Pincode below           *\n" +
+                "*========================================== *\n" +
+                "*   1) login                                *\n" +
+                "*   2) Create account                       *\n" +
+                "*   3) Exit                                 *\n" +
+                "*========================================== *\n");
+
+    }
+
+    private void printFrameWithMessage(String message) {
+        printTenLines();
+        System.out.print("*********************************************+\n" +
+                "*                                           *\n");
+        System.out.print(message);
+        System.out.print("*                                           *\n" +
+                "*********************************************+\n");
+    }
 
 }

@@ -21,37 +21,18 @@ public class Account {
         this.fourDigitPin = insertPinNumber();
     }
 
-    public String getAccountNumber() {
-        return accountNumber;
-    }
-
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
-    }
-
     public double getCashAmount() {
         return cashAmount;
-    }
-
-    public void setCashAmount(double cashAmount) {
-        this.cashAmount = cashAmount;
-    }
-    public void withdraw(double amount){
-        if(amount>=cashAmount) {
-            this.cashAmount -= amount;
-            System.out.println("withrow coplete");
-        }else{
-            System.out.println("not enough money");
-        }
-    }
-    public void deposit(double deposit){
-        this.cashAmount+=deposit;
-        System.out.println("Deposit complete");
     }
 
     public String getFourDigitPin() {
         return fourDigitPin;
     }
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
     public String toString(){
         return "acc number: "+accountNumber+
                 " cash amount: "+cashAmount+
@@ -66,6 +47,7 @@ public class Account {
         }
         return sb.toString();
     }
+
     private String insertPinNumber(){
         Scanner sc = new Scanner(System.in);
         System.out.println("TWORZENIE KONTA:\n");
@@ -76,6 +58,7 @@ public class Account {
         }while(!correctPin(pinNumber));
         return pinNumber;
     }
+
     private boolean correctPin(String pin){
         try{
             Integer.parseInt(pin);
@@ -83,6 +66,28 @@ public class Account {
             return false;
         }
         return pin.length()==4;
+    }
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    public void setCashAmount(double cashAmount) {
+        this.cashAmount = cashAmount;
+    }
+
+    public void withdraw(double amount){
+        if(amount>=cashAmount) {
+            this.cashAmount -= amount;
+            System.out.println("withrow coplete");
+        }else{
+            System.out.println("not enough money");
+        }
+    }
+
+    public void deposit(double deposit){
+        this.cashAmount+=deposit;
+        System.out.println("Deposit complete");
     }
 
 
